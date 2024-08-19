@@ -92,6 +92,11 @@ function processClick(buttonID, buttonClass) {
             }
         }  
     }
+
+    if (buttonID === "reverse-sign") {
+        currentOperandString = "-" + currentOperandString;
+        textBox.textContent = currentOperandString;
+    }
 }
 
 function operate(first, operation, second) {
