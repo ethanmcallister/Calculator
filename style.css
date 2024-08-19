@@ -22,6 +22,8 @@ button:hover {
 }
 
 #top-window {
+    display: flex;
+    justify-content: end;
     width: 90%;
     height: 15%;
     background-color: white;
@@ -29,6 +31,10 @@ button:hover {
     margin-bottom: 10px;
     /* border-color: black;  */
     border-radius: 10px;
+
+    font-size: xxx-large;
+    text-align: center;
+    padding: 10px;
 }
 
 #buttons {
@@ -63,6 +69,6 @@ button:hover {
     background-color: lightblue;
 }
 
-.operands {
+.operation {
     background-color: orange;
 }
