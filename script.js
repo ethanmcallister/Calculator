@@ -40,12 +40,11 @@ function processClick(buttonID, buttonClass) {
         let result = operate(firstOperand, operation, secondOperand);
         let roundedResult = "";
 
-        // round if result is a number
         if (!divideByZeroError) {
             roundedResult = roundResult(result);
         } else { 
             roundedResult = result;
-            clearAll();
+            clearAll();  // clear all info so user can immediately start a new calculation
         }
 
         console.log(roundedResult);
@@ -58,8 +57,8 @@ function processClick(buttonID, buttonClass) {
         textBox.textContent = roundedResult;
         firstOperand = result;
 
-        currentOperandString = "";
-        currentOperandStringLength = 0;
+        currentOperandString = roundedResult;
+        currentOperandStringLength = currentOperandString.length;
         secondOperand = 0;
         divideByZeroError = false;
         justClickedEnter = true;
@@ -96,7 +95,7 @@ function processClick(buttonID, buttonClass) {
         justClickedOp = false;
     }
 
-    // if they clicked a operation symbol
+    // if they clicked an operation symbol
     if (buttonClass === "operation" && currentOperandString !== "") { 
         if (operandNumber === 0) {
             firstOperand = Number(currentOperandString);
