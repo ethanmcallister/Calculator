@@ -13,8 +13,8 @@ let operandNumber = 0;
 let firstOperand;
 let operation;
 let secondOperand;
-let currentOperandString = "";
-let currentOperandStringLength = 0;
+let currentOperandString = "0";
+let currentOperandStringLength = currentOperandString.length;
 let justClickedEnter = false;
 let justClickedOp = false;
 let divideByZeroError = false;
@@ -35,7 +35,7 @@ function processClick(buttonID, buttonClass) {
     if (buttonID === "clear") { clearAll(); }
 
     // if they clicked equals
-    if (buttonID === "equals" && operandNumber === 1) {
+    if (buttonID === "equals" && operandNumber >= 1) {
         secondOperand = Number(currentOperandString);
         let result = operate(firstOperand, operation, secondOperand);
         let roundedResult = "";
@@ -69,6 +69,12 @@ function processClick(buttonID, buttonClass) {
     // if buttonID is a number, add the button id to the current button string
     if (buttonClass === "number") {
 
+        if (justClickedOp) {
+            currentOperandString = "";
+            currentOperandStringLength = 0;
+            operandNumber++;
+        }
+
         // for dot:
         if (buttonID === "dot") {
             // ensure there is no more than 1 period in the currentOperandString
@@ -84,8 +90,13 @@ function processClick(buttonID, buttonClass) {
             }
         }
         else {
-            currentOperandString += buttonID;
-            currentOperandStringLength++;
+            if (currentOperandStringLength === 1 && currentOperandString[0] === "0") {
+                currentOperandString = buttonID;
+                currentOperandStringLength++;
+            } else {
+                currentOperandString += buttonID;
+                currentOperandStringLength++;
+            }    
         }
         
         if (currentOperandStringLength <= 10) {
@@ -98,39 +109,36 @@ function processClick(buttonID, buttonClass) {
 
     // if they clicked an operation symbol
     if (buttonClass === "operation" && currentOperandString !== "") { 
+    
         if (operandNumber === 0) {
             firstOperand = Number(currentOperandString);
-            currentOperandString = "";
-            currentOperandStringLength = 0;
             operation = buttonID;
-            operandNumber++;
 
         } else if (operandNumber === 1) {
             if (justClickedEnter) {
                 operation = buttonID;
-                currentOperandString = "";
-                currentOperandStringLength = 0;
                 return;
             } else {
                 secondOperand = Number(currentOperandString);
-                let result = operate(firstOperand, operation, secondOperand);
-                firstOperand = result;
+                let result = operate(firstOperand, operation, secondOperand);                
                 let roundedResult = roundResult(result);
     
                 console.clear();
                 console.log(roundedResult);
                 console.log(buttonID);
-                textBox.textContent = roundedResult;
+                textBox.textContent = roundedResult;        
 
+                firstOperand = result;
                 operation = buttonID;
-                currentOperandString = "";
-                currentOperandStringLength = 0;
             }
-        }  
+        }
         justClickedOp = true;
     }
 
     if (buttonID === "reverse-sign") {
+        if (justClickedOp) {
+            return;
+        }
         if (currentOperandString[0] === '-') {
             currentOperandString = currentOperandString.slice(1);
             textBox.textContent = currentOperandString;
@@ -168,8 +176,8 @@ function clearAll() {
     firstOperand = undefined;
     operation = undefined;
     secondOperand = undefined;
-    currentOperandString = "";
-    currentOperandStringLength = 0;
+    currentOperandString = "0";
+    currentOperandStringLength = currentOperandString.length;
     textBox.textContent = "0";
     justClickedOp = false;
     justClickedEnter = false;
