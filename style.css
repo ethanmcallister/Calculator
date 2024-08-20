@@ -1,3 +1,7 @@
+html, body {
+    touch-action: manipulation;  /* keeps mobile devices from zooming in on double clicks */
+}
+
 #calculator {
     display: flex;
     flex-direction: column;
