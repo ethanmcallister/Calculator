@@ -93,7 +93,7 @@ function processClick(buttonID, buttonClass) {
         }  
     }
 
-    if (buttonID === "reverse-sign") {
+    if (buttonID === "reverse-sign" && currentOperandString[0] != '-') {
         currentOperandString = "-" + currentOperandString;
         textBox.textContent = currentOperandString;
     }
