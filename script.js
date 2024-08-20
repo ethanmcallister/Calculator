@@ -62,6 +62,7 @@ function processClick(buttonID, buttonClass) {
         secondOperand = 0;
         divideByZeroError = false;
         justClickedEnter = true;
+        operandNumber = 0;
 
     }
 
