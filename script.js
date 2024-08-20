@@ -45,14 +45,13 @@ function processClick(buttonID, buttonClass) {
         } else { 
             roundedResult = result;
             clearAll();  // clear all info so user can immediately start a new calculation
+
+            textBox.style.fontSize = "large";
+            textBox.textContent = roundedResult;
+            return;
         }
 
         console.log(roundedResult);
-
-        // change font size if there is divide by zero error 
-        if (divideByZeroError) {
-            textBox.style.fontSize = "large";
-        }
 
         textBox.textContent = roundedResult;
         firstOperand = result;
@@ -179,6 +178,7 @@ function clearAll() {
     textBox.textContent = "0";
     justClickedOp = false;
     justClickedEnter = false;
+    divideByZeroError = false;
 }
 
 // ensure result shows a max of 8 characters
