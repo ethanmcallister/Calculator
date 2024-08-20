@@ -93,15 +93,13 @@ function processClick(buttonID, buttonClass) {
             if (currentOperandStringLength === 1 && currentOperandString[0] === "0") {
                 currentOperandString = buttonID;
                 currentOperandStringLength++;
-            } else {
+            } else if (currentOperandStringLength <= 10) {
                 currentOperandString += buttonID;
                 currentOperandStringLength++;
             }    
         }
-        
-        if (currentOperandStringLength <= 10) {
-            textBox.textContent = currentOperandString;
-        }
+ 
+        textBox.textContent = currentOperandString;
 
         justClickedEnter = false;
         justClickedOp = false;
