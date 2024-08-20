@@ -15,6 +15,7 @@ let secondOperand;
 let currentOperandString = "";
 let currentOperandStringLength = 0;
 let justClickedEnter = false;
+let divideByZeroError = false;
 
 function handleClick(event) {
     console.log(event.target.textContent);
@@ -25,6 +26,9 @@ function handleClick(event) {
 }
 
 function processClick(buttonID, buttonClass) {
+    // make sure text size is xxx-large
+    textBox.style.fontSize = "xxx-large";
+    
     // if they clicked clear
     if (buttonID === "clear") { clearAll(); }
 
@@ -32,15 +36,30 @@ function processClick(buttonID, buttonClass) {
     if (buttonID === "equals" && operandNumber === 1) {
         secondOperand = Number(currentOperandString);
         let result = operate(firstOperand, operation, secondOperand);
-        
-        let roundedResult = roundResult(result);
+        let roundedResult = "";
+
+        // round if result is a number
+        if (!divideByZeroError) {
+            roundedResult = roundResult(result);
+        } else { 
+            roundedResult = result;
+            clearAll();
+        }
+
         console.log(roundedResult);
+
+        // change font size if there is divide by zero error 
+        if (divideByZeroError) {
+            textBox.style.fontSize = "large";
+        }
+
         textBox.textContent = roundedResult;
         firstOperand = result;
 
         currentOperandString = "";
         currentOperandStringLength = 0;
         secondOperand = 0;
+        divideByZeroError = false;
         justClickedEnter = true;
     }
 
@@ -49,15 +68,27 @@ function processClick(buttonID, buttonClass) {
 
         // for dot:
         if (buttonID === "dot") {
-            buttonID = ".";
+            // ensure there is no more than 1 period in the currentOperandString
+            let periodCount = 0;
+            currentOperandString.split('').forEach((character) => {
+                if (character === ".") { periodCount++; }
+            });
+
+            if (periodCount < 1) {
+                buttonID = ".";
+                currentOperandString += buttonID;
+                currentOperandStringLength++;
+            }
         }
-
-        currentOperandString += buttonID;
-        currentOperandStringLength++;
-
+        else {
+            currentOperandString += buttonID;
+            currentOperandStringLength++;
+        }
+        
         if (currentOperandStringLength <= 10) {
             textBox.textContent = currentOperandString;
         }
+
         justClickedEnter = false;
     }
 
@@ -118,6 +149,7 @@ function operate(first, operation, second) {
         return result;
     } else if (operation === "divide") {
         if (second === 0) {
+            divideByZeroError = true;
             return "Cannot divide by zero";
         }
         let result = first / second;
@@ -135,13 +167,13 @@ function clearAll() {
     textBox.textContent = "0";
 }
 
-// ensure result shows a max of 10 characters
+// ensure result shows a max of 8 characters
 function roundResult(num) {
-    numString = num.toString();
-    
-    if (numString.length > 6) {
-        const result = num.toPrecision(6);
-        return result;        
+    let numString = num.toString();
+
+    if (numString.length > 7) {
+        numString = num.toPrecision(7);
     }
-    return num;
+    
+    return numString;  
 }
