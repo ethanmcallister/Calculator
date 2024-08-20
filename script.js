@@ -8,6 +8,7 @@ buttonElements.forEach(button => {
     button.addEventListener("click", handleClick);
 });
 
+// initialize variables
 let operandNumber = 0;
 let firstOperand;
 let operation;
@@ -15,6 +16,7 @@ let secondOperand;
 let currentOperandString = "";
 let currentOperandStringLength = 0;
 let justClickedEnter = false;
+let justClickedOp = false;
 let divideByZeroError = false;
 
 function handleClick(event) {
@@ -61,6 +63,7 @@ function processClick(buttonID, buttonClass) {
         secondOperand = 0;
         divideByZeroError = false;
         justClickedEnter = true;
+
     }
 
     // if buttonID is a number, add the button id to the current button string
@@ -90,16 +93,18 @@ function processClick(buttonID, buttonClass) {
         }
 
         justClickedEnter = false;
+        justClickedOp = false;
     }
 
     // if they clicked a operation symbol
-    if (buttonClass === "operation") {
+    if (buttonClass === "operation" && currentOperandString !== "") { 
         if (operandNumber === 0) {
             firstOperand = Number(currentOperandString);
             currentOperandString = "";
             currentOperandStringLength = 0;
             operation = buttonID;
             operandNumber++;
+
         } else if (operandNumber === 1) {
             if (justClickedEnter) {
                 operation = buttonID;
@@ -122,6 +127,7 @@ function processClick(buttonID, buttonClass) {
                 currentOperandStringLength = 0;
             }
         }  
+        justClickedOp = true;
     }
 
     if (buttonID === "reverse-sign") {
@@ -165,6 +171,8 @@ function clearAll() {
     currentOperandString = "";
     currentOperandStringLength = 0;
     textBox.textContent = "0";
+    justClickedOp = false;
+    justClickedEnter = false;
 }
 
 // ensure result shows a max of 8 characters
