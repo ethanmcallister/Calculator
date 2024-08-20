@@ -187,8 +187,8 @@ function clearAll() {
 function roundResult(num) {
     let numString = num.toString();
 
-    if (numString.length > 7) {
-        numString = num.toPrecision(7);
+    if (numString.length > 6) {
+        numString = num.toPrecision(6);
     }
     
     return numString;  
